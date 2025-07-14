@@ -25,7 +25,9 @@ class Alien(Sprite):
         # self.y = float(self.rect.y)
 
     def update(self):
-        pass
+        temp_speed = self.settings.fleet_speed
+        self.x += temp_speed
+        self.rect.x = self.x
     
     def draw_alien(self):
         self.screen.blit(self.image, self.rect)
