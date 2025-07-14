@@ -24,3 +24,4 @@ class Settings:
         self.alien_w = 40
         self.alien_h = 40
         self.fleet_speed = 2
+        self.fleet_direction = 1
