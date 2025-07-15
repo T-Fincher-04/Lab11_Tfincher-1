@@ -88,3 +88,6 @@ class AlienFleet:
 
     def check_collision(self, other_group):
         return pygame.sprite.groupcollide(self.fleet, other_group, True, True)
+    
+    def check_destroyed_status(self):
+        return self.fleet
