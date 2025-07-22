@@ -13,6 +13,9 @@ class AlienInvasion:
 
     def __init__(self):
         pygame.init()
+        self.game_active = False
+        # Make the Play button.
+        self.play_button = Button(self, "Play")
         self.settings = Settings
         self.initialize_dynamic_settings
         
@@ -84,7 +87,7 @@ class AlienInvasion:
             # update HUD view
             self.HUD._update_level()
 
-            
+
     def _check_game_status(self):
         if self.game_stats.ships_left > 0:
             self.game_stats.ships_left -= 1
@@ -93,6 +96,7 @@ class AlienInvasion:
             sleep(0.5)
         else:
             self.game_active = False
+            pygame.mouse.set_visible(True)
         
 
     def _reset_level(self):
@@ -110,6 +114,9 @@ class AlienInvasion:
         pygame.mouse.set_visible(False)
 
     def _update_screen(self):
+        # Draw the play button if the game is inactive.
+        if not self.game_active:
+            self.play_button.draw_button()
         self.screen.blit(self.bg, (0,0))
         self.ship.draw()
         self.alien_fleet.draw()
@@ -127,12 +134,37 @@ class AlienInvasion:
                 self.game_stats.save_scores()
                 pygame.quit()
                 sys.exit()
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                 mouse_pos = pygame.mouse.get_pos()
+                 self._check_play_button(mouse_pos)
             elif event.type == pygame.KEYDOWN and self.game_active == True:
                 self._check_keydown_events(event)
             elif event.type == pygame.KEYUP:
                 self._check_keyup_events(event)
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 self._check_button_clicked()
+
+
+
+    def _check_play_button(self, mouse_pos):
+        """Start a new game when the player clicks Play."""
+        button_clicked = self.play_button.rect.collidepoint(mouse_pos)
+        if button_clicked and not self.game_active:
+            if self.play_button.rect.collidepoint(mouse_pos):
+             self.stats.reset_stats()
+             # Hide the mouse cursor.
+            pygame.mouse.set_visible(False)
+            self.game_active = True
+            # Get rid of any remaining bullets and aliens.
+            self.bullets.empty()
+            self.aliens.empty()
+
+            # Create a new fleet and center the ship.
+            self._create_fleet()
+            self.ship.center_ship()
+
+        
+            
 
     def _check_button_clicked(self):
         mouse_pos = pygame.mouse.get_pos
