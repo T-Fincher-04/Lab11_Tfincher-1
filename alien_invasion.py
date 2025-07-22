@@ -13,6 +13,7 @@ class AlienInvasion:
     def __init__(self):
         pygame.init()
         self.settings = Settings
+        self.initialize_dynamic_settings
         self.game_stats = GameStats(self.settings.starting_ship_count)
 
         self.screen = pygame.display.set_mode(
@@ -113,7 +114,7 @@ class AlienInvasion:
                 self.running = False
                 pygame.quit()
                 sys.exit()
-            elif event.type == pygame.KEYDOWN:
+            elif event.type == pygame.KEYDOWN and self.game_active == True:
                 self._check_keydown_events(event)
             elif event.type == pygame.KEYUP:
                 self._check_keyup_events(event)
