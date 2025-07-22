@@ -36,7 +36,7 @@ class GameStats():
             print(f'File Not Found: {e.value}')
 
     def reset_stats(self):
-        self.ship_left = self.settings.starting_ship_count
+        self.ships_left = self.settings.starting_ship_count
         self.score = 0
         self.level = 1
 
